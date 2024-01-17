@@ -1,0 +1,66 @@
+Enemy.cs
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy : MonoBehaviour
+{
+ 
+ public float speed;
+ 
+ public Transform target;
+
+ public int playerDamage = 2;
+ void Update()
+ {
+ 
+ transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+ 
+ transform.LookAt(target.position);
+ }
+ 
+ private void OnTriggerEnter(Collider other)
+ {
+ Player player = other.GetComponent<Player>();
+ player.TakeDamage(playerDamage);
+ }
+}
+Coin.cs
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class Coin : MonoBehaviour
+{
+ void OnTriggerEnter(Collider other) {
+ Player player = other.GetComponent<Player>();
+ 
+ player.CollectCoins();
+
+ Destroy(gameObject);
+ }
+}
+Missile.cs
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class Missile : MonoBehaviour
+{
+ М1У1. Знакомство с Unity
+102
+
+ public float speed;
+ void Update()
+ {
+ 
+ Destroy(gameObject, 3);
+
+ transform.position += transform.forward * speed * Time.deltaTime;
+ }
+ void OnTriggerEnter(Collider other) {
+
+ Enemy enemy = other.GetComponent<Enemy>();
+ Destroy(enemy.gameObject);
+ 
+ Destroy(gameObject);
+ }
+}
